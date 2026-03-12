@@ -1,12 +1,12 @@
 import express from 'express';
+import healthRouter from './routes/health.js';
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.get('/health', (req, res) => {
-    res.json({ok: true});
-});
+app.use(healthRouter);
 
-app.listen(port, () => {
-    console.log(`I'm listening on port ${port}`);
+app.listen(PORT, (error) => {
+    if(error) console.log(error);
+    console.log(`I'm listening on port ${PORT}`);
 });
