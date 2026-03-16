@@ -6,12 +6,14 @@ type GameProps = {
 
 function GameCard({game}: GameProps){
     return (
-        <article>
+        <article className="game-card">
             <img src={game.imageUrl} alt={game.name} />
             <h3>{game.name}</h3>
-            <p>{game.year}</p>
-            <p>{game.score}</p>
-            {game.state && <span>{game.state}</span>}
+            <p>Platform: {game.platform}</p>
+            <p>Released: {game.year}</p>
+            <p>Average score: {game.score}</p>
+            <p>Genres: {game.genres}</p>
+            <span>{game.state ?? ""}</span>
         </article> 
     );
 }

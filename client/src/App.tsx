@@ -13,7 +13,7 @@ function App() {
       <section>
         <h2>Search Results</h2>
 
-        <div className="game-card">        
+        <div className="game-grid">        
           {demoResults.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
@@ -23,9 +23,12 @@ function App() {
 
       <section>
         <h2>My Library</h2>
+
+        <div className="game-grid">
           {demoShelf.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
+        </div>
       </section>
     </main>
   )
