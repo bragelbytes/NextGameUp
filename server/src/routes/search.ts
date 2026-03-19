@@ -2,8 +2,7 @@ import express from 'express';
 
 const searchRouter = express.Router();
 
-searchRouter.get('/api/search', (req, res) => {
-    res.json([
+const exampleGames = [
         {
             id: 1,
             name: "Example Game",
@@ -23,7 +22,18 @@ searchRouter.get('/api/search', (req, res) => {
             imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Vivi_Ornitier_character.png/250px-Vivi_Ornitier_character.png",
             state: "Wishlist"
         },
-    ]);
+    ];
+
+searchRouter.get('/api/search', (req, res) => {
+    const query = typeof req.query.q === "string" ? req.query.q : "";
+    const normalizedQuery = query.toLowerCase();
+    const filteredGames = exampleGames.filter((game) => {
+        return (
+            game.name.toLowerCase().includes(normalizedQuery) ||
+            game.platform.toLocaleLowerCase().includes(normalizedQuery)
+        );
+    });
+    res.json(filteredGames);
 });
 
 export default searchRouter;
