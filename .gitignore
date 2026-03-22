@@ -1,6 +1,5 @@
 # Node / package managers 
 node_modules/
-server/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -11,7 +10,6 @@ lerna-debug.log*
 
 # build outputs & caches 
 dist/
-server/dist/
 dist-ssr/
 build/
 coverage/
@@ -29,7 +27,6 @@ temp/
 .env.production.local
 .env.development.local
 !.env.example
-server/.env
 server/.env.*
 
 # logs 
