@@ -12,11 +12,17 @@ function App() {
   const [error, setError] = useState("");
 
   async function handleSearch(){
+    let trimmedSearchTerm = searchTerm.trim()
+    if(!trimmedSearchTerm){
+      setResults([]);
+      setError("Please enter a game title, platform, etc. to begin search");
+      return;
+    }
     setIsLoading(true);
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:3000/api/search?q=${encodeURIComponent(searchTerm)}`);
+      const response = await fetch(`http://localhost:3000/api/search?q=${encodeURIComponent(trimmedSearchTerm)}`);
 
       if(!response.ok){
         throw new Error("Could not fetch data");
@@ -44,6 +50,9 @@ function App() {
         <h2>Search Results</h2>
         {isLoading && <p>Now Loading...</p>}
         {error && <p>{error}</p>}
+        {searchTerm.trim() && !isLoading && !error && results.length === 0 && (
+          <p>No games matched your search...</p>
+        )}
         {
           results.length > 0 && 
           <div className="game-grid">        
