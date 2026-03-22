@@ -1,0 +1,56 @@
+# Node / package managers 
+node_modules/
+server/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnp.*
+.pnpm-debug.log*
+
+# build outputs & caches 
+dist/
+server/dist/
+dist-ssr/
+build/
+coverage/
+.vite/
+*.tsbuildinfo
+*.local
+tmp/
+temp/
+*.tmp
+
+# environment files 
+.env
+.env.*.local
+.env.local
+.env.production.local
+.env.development.local
+!.env.example
+server/.env
+server/.env.*
+
+# logs 
+logs/
+*.log
+
+# editor & IDE stuff 
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# tooling & databases 
+prisma/dev.db
+prisma/dev.db-journal
+
+# docker & other misc 
+docker-data/
