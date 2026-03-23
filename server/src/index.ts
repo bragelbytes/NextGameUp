@@ -1,7 +1,10 @@
 import cors from 'cors';
 import express from 'express';
+import dotenv from 'dotenv';
 import healthRouter from './routes/health.js';
 import searchRouter from './routes/search.js';
+
+dotenv.config({path: '.env'});
 
 const app = express();
 const PORT = 3000;
