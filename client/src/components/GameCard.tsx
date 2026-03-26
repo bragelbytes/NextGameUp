@@ -9,11 +9,11 @@ function GameCard({game}: GameProps){
         <article className="game-card">
             <img src={game.imageUrl} alt={game.name} />
             <h3>{game.name}</h3>
-            <p>Platform: {game.platform}</p>
-            <p>Released: {game.year}</p>
-            <p>Average score: {game.score}</p>
-            <p>Genres: {game.genres}</p>
-            <span>{game.state ?? ""}</span>
+            <p>{game.platform}</p>
+            <p>{game.year}</p>
+            <p>Metacritic: {game.score === 0 ? "Not rated" : game.score}</p>
+            <p>{game.genres.length === 0 ? "No genres listed" : game.genres.join(", ")}</p>
+            {game.state && <span>{game.state}</span>}
         </article> 
     );
 }
