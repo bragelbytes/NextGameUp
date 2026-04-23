@@ -4,34 +4,42 @@ import GameCard from "./components/GameCard";
 import { demoShelf } from "./data/mockGames";
 import type { Game } from "./types/game";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
+
 function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+  const [submittedQuery, setSubmittedQuery] = useState("")
   const [results, setResults] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSearch(){
-    let trimmedSearchTerm = searchTerm.trim()
+    const trimmedSearchTerm = searchTerm.trim()
     if(!trimmedSearchTerm){
       setResults([]);
       setError("Please enter a game title, platform, etc. to begin search");
       return;
     }
+    setSubmittedQuery(trimmedSearchTerm);
+    setHasSearched(true);
     setIsLoading(true);
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:3000/api/search?q=${encodeURIComponent(trimmedSearchTerm)}`);
+      const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(trimmedSearchTerm)}`);
 
       if(!response.ok){
-        throw new Error("Could not fetch data");
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.error || 
+        "Could not fetch data");
       }
       
       const data = await response.json();
       setResults(data);
-    } catch (err) {
-      setError("Something went wrong while searching.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Something went wrong while searching.");
     } finally {
       setIsLoading(false);
     }
@@ -43,15 +51,15 @@ function App() {
         <h1>NextGameUp</h1>
         <p>Track your library and decide what to play next!</p>
 
-        <SearchPanel searchTerm={searchTerm} onSearchChange={setSearchTerm} onSearchSubmit={handleSearch} />
+        <SearchPanel searchTerm={searchTerm} onSearchChange={setSearchTerm} onSearchSubmit={handleSearch} isLoading={isLoading} />
       </section>
 
       <section>
         <h2>Search Results</h2>
         {isLoading && <p>Now Loading...</p>}
         {error && <p>{error}</p>}
-        {searchTerm.trim() && !isLoading && !error && results.length === 0 && (
-          <p>No games matched your search...</p>
+        {hasSearched && !isLoading && !error && results.length === 0 && (
+          <p>No games matched "{submittedQuery}"</p>
         )}
         {
           results.length > 0 && 

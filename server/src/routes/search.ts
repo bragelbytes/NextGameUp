@@ -56,12 +56,12 @@ searchRouter.get('/api/search', async (req, res) => {
             platform: Array.isArray(game.parent_platforms)
             ? game.parent_platforms.map((item) => item.platform.name).join(", ")
             : "Unknown",
-            year: game.released ? new Date(game.released).getFullYear() : 0,
-            score: typeof game.metacritic === "number" ? game.metacritic : 0,
+            year: game.released ? new Date(game.released).getFullYear() : null,
+            score: typeof game.metacritic === "number" ? game.metacritic : null,
             genres: Array.isArray(game.genres)
             ? game.genres.map((genre) => genre.name)
             : [],
-            imageUrl: game.background_image ?? "",
+            imageUrl: game.background_image || null,
         }));
 
         res.json(gameObject);
