@@ -86,7 +86,7 @@ The backend is meant to act as the layer between external game data and the appâ
 
 ## Where It Stands Right Now
 
-**Last updated:** March 22, 2026
+**Last updated:** April 25, 2026
 
 ### Done So Far
 
@@ -99,9 +99,8 @@ The backend is meant to act as the layer between external game data and the appâ
 
 ### In Progress
 
-- [~] Search results are flowing end-to-end with real RAWG data
-- [~] UI styling and component structure are established, but polish and empty states still need work
-- [~] Search result formatting and fallbacks still need cleanup for real-world API data
+- [~] UI styling and component structure are established, but broader polish still needs work
+- [~] Search result quality filtering is improved, but smarter ranking / filtering is still a stretch goal
 
 ---
 
@@ -166,13 +165,13 @@ Backend endpoints that return game metadata from RAWG for search and display.
 
 Search is the main discovery flow for the app. This milestone adds the frontend search experience on top of the backend integration.
 
-**Status:** In progress
+**Status:** Complete
 
 ### Scope
 
 - [x] Search page and input component
 - [x] Integration with backend search endpoint
-- [~] Result list displaying game metadata (image, title, release year, rating where available)
+- [x] Result list displaying game metadata (image, title, release year, rating where available)
 - [x] Reusable game card component for result display
 
 ### Deliverable
