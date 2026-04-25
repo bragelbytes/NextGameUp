@@ -49,22 +49,29 @@ searchRouter.get('/api/search', async (req, res) => {
         }   
 
         const rawgData: RawgSearchResponse = await response.json();
-        const games = Array.isArray(rawgData.results) ? rawgData.results : [];
-        const gameObject = games.map((game) => ({
-            id: game.id,
-            name: game.name ?? "Unknown",
-            platform: Array.isArray(game.parent_platforms)
-            ? game.parent_platforms.map((item) => item.platform.name).join(", ")
+
+        const rawgGames = Array.isArray(rawgData.results) ? rawgData.results : [];
+        const filteredGames = rawgGames.filter((rawgGame) => {
+          const platformNames = Array.isArray(rawgGame.parent_platforms) ? rawgGame.parent_platforms.map((item) => item.platform.name) : [];
+
+          return !platformNames.includes("Web");
+        });
+
+        const normalizedGames = filteredGames.map((rawgGame) => ({
+            id: rawgGame.id,
+            name: rawgGame.name ?? "Unknown",
+            platform: Array.isArray(rawgGame.parent_platforms)
+            ? rawgGame.parent_platforms.map((item) => item.platform.name).join(", ")
             : "Unknown",
-            year: game.released ? new Date(game.released).getFullYear() : null,
-            score: typeof game.metacritic === "number" ? game.metacritic : null,
-            genres: Array.isArray(game.genres)
-            ? game.genres.map((genre) => genre.name)
+            year: rawgGame.released ? new Date(rawgGame.released).getFullYear() : null,
+            score: typeof rawgGame.metacritic === "number" ? rawgGame.metacritic : null,
+            genres: Array.isArray(rawgGame.genres)
+            ? rawgGame.genres.map((genre) => genre.name)
             : [],
-            imageUrl: game.background_image || null,
+            imageUrl: rawgGame.background_image || null,
         }));
 
-        res.json(gameObject);
+        res.json(normalizedGames);
     } catch(error) {
         res.status(500).json({error: "Something went wrong fetching RAWG data"})
     }
