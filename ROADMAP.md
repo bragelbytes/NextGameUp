@@ -12,7 +12,8 @@ Right now the app is following a simple client-server setup.
 
 - **Frontend:** React + TypeScript (Vite)
 - **Backend:** Node.js + Express API
-- **Database:** PostgreSQL with Prisma ORM
+- **Database:** PostgreSQL
+- **Backend DB Access:** `pg` / node-postgres
 - **External Data Source:** RAWG API
 
 The backend is meant to act as the layer between external game data and the app’s own stored user data.
@@ -86,7 +87,7 @@ The backend is meant to act as the layer between external game data and the app�
 
 ## Where It Stands Right Now
 
-**Last updated:** April 25, 2026
+**Last updated:** April 27, 2026
 
 ### Done So Far
 
@@ -182,25 +183,25 @@ Users can search for games through the application and view structured results r
 
 ## Milestone 3 — Database Infrastructure
 
-Set up PostgreSQL as the main store, add a migration workflow, and wire the backend to the database.
+Set up PostgreSQL as the main store, add a SQL migration workflow, and wire the backend to the database with `pg`.
 
 **Status:** Planned / intentionally paused
 
 ### Scope
 
-- Local PostgreSQL (or equivalent) and Prisma ORM
-- Migration workflow and initial schema
+- Local PostgreSQL (or equivalent) and `pg` / node-postgres
+- SQL migration workflow and initial schema
 - Connectivity checks and seed data for development
 
 ### Deliverable
 
-Backend talks to PostgreSQL; schema changes are managed via migrations.
+Backend talks to PostgreSQL directly; schema changes are managed via SQL migrations.
 
 ---
 
 ## Milestone 4 — Core Data Models
 
-Design the core schema for users, games, and user-game relationships.
+Design the core schema in SQL for users, games, and user-game relationships.
 
 **Status:** Planned / intentionally paused
 
@@ -215,17 +216,18 @@ Design the core schema for users, games, and user-game relationships.
 ### Constraints
 
 - One canonical game per external id; one library entry per user per game
+- One backlog record per user per game when backlog is active
 - Soft delete for library entries
 
 ### Deliverable
 
-Normalized schema that supports user libraries and external game metadata.
+Normalized SQL schema that supports user libraries and external game metadata.
 
 ---
 
 ## Milestone 5 — Library Management
 
-Users can add games to a personal library, set a state (Wishlist / Owned), and remove entries with soft delete. No duplicates per user.
+Users can add games to a personal library, set a state (Wishlist / Owned), and remove entries with soft delete. No duplicates per user. Backlog flows should always have a corresponding library entry.
 
 ### Library States
 
@@ -233,13 +235,14 @@ Users can add games to a personal library, set a state (Wishlist / Owned), and r
 
 ### Scope
 
-- Add/update/remove library entry endpoints
+- Add/update/remove library entry endpoints using `pg` and parameterized SQL queries
 - Upsert of game records from RAWG when adding to library
 - Enforce single membership per user per game
+- When a user adds a game to backlog from search, create or reuse the corresponding library entry first
 
 ### Deliverable
 
-Users can search (via RAWG) and maintain a personal library with correct states and no duplicates.
+Users can search (via RAWG), maintain a personal library with correct states and no duplicates, and support backlog-safe library membership.
 
 ---
 
@@ -262,7 +265,7 @@ Library interface is fully backed by persistent data; users can browse and filte
 
 ## Milestone 7 — Backlog Management
 
-Backlog is separate from ownership: users can mark library games as in-backlog and move them through play states.
+Backlog is separate from ownership: users can mark library games as in-backlog and move them through play states. If a user adds a game to backlog from search, the app should create or reuse the related library entry first.
 
 ### Model
 
@@ -277,11 +280,13 @@ Backlog is separate from ownership: users can mark library games as in-backlog a
 ### Scope
 
 - Backlog model and add/update/remove endpoints
+- Add-to-backlog flow from both search results and the user library
+- If a backlog add starts from search, create the library entry automatically (defaulting to `Wishlist` unless the user explicitly marks it `Owned`)
 - Start and completion timestamps where applicable
 
 ### Deliverable
 
-Users can manage a backlog and track status for games in their library.
+Users can add games to backlog from search or library, and track backlog status for games in their library.
 
 ---
 
@@ -398,6 +403,7 @@ Live deployment; core flows work in production.
 For me, the first real shipped version is done when:
 
 - Users can search games (RAWG) and add them to a personal library (Wishlist / Owned)
+- Users can add games to backlog from search or library, with backlog entries always tied to a library entry
 - Users can view and manage that library (no duplicate entries; data in PostgreSQL)
 - Backlog and play states are supported and visible in the UI
 - Auth and deployment are in place so the app is multi-user and live
