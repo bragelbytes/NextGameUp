@@ -1,33 +1,62 @@
 # Database Notes
 
 ## users
-users
-    id
-    username
-    created_at
+Columns:
+- id: integer
+- username: text 
+- created_at: timestamp
+
+Rules:
+- primary key: id
 
 ## games
-games
-    id
-    created_at
-    title
-    source_url
+Columns:
+- id: integer
+- rawg_id: integer
+- created_at: timestamp
+- name: text
+- source_url: text
+
+Rules: 
+- primary key: id
+- unique: rawg_id
 
 ## user_library
-user_library
-    id
-    user_id
-    games_id
-    user_backlog__id
-    created_at
-    updated_at
-    deleted_at
+
+Columns: 
+- id: integer
+- user_id -> users.id
+- game_id -> games.id
+- library_state: text
+    - Owned
+    - Wishlist
+- created_at: timestamp
+- updated_at: timestamp
+- deleted_at: timestamp nullable
+
+Rules:
+- Primary key: id
+- Foreign key: 
+  - user_id -> users.id
+  - game_id -> games.id
+- Unique: user_id + game_id
+- deleted_at is null when the library entry is active
 
 ## user_backlog
-user_backlog
-    id
-    user_id
-    games_id
-    user_library_id
-    created_at
-    updated_at
+
+Columns:
+- id: integer
+- library_id -> user_library.id
+- backlog_status: text
+    - Backlog
+    - Playing
+    - Paused
+    - Finished
+    - Dropped
+- created_at: timestamp 
+- updated_at: timestamp
+
+Rules:
+- Primary key: id
+- Foreign key: library_id -> user_library.id
+- Unique: library_id
