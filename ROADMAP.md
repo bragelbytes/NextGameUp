@@ -77,9 +77,12 @@ The backend is meant to act as the layer between external game data and the app�
   - [Milestone 12 — Authentication](#milestone-12--authentication)
     - [Scope](#scope-10)
     - [Deliverable](#deliverable-13)
-  - [Milestone 13 — Deployment](#milestone-13--deployment)
+  - [Milestone 12.5 — Achievement Integrations (Optional)](#milestone-125--achievement-integrations-optional)
     - [Scope](#scope-11)
     - [Deliverable](#deliverable-14)
+  - [Milestone 13 — Deployment](#milestone-13--deployment)
+    - [Scope](#scope-12)
+    - [Deliverable](#deliverable-15)
   - [MVP Scope](#mvp-scope)
   - [Backlog](#backlog)
 
@@ -87,7 +90,7 @@ The backend is meant to act as the layer between external game data and the app�
 
 ## Where It Stands Right Now
 
-**Last updated:** April 27, 2026
+**Last updated:** August 28, 2026
 
 ### Done So Far
 
@@ -382,6 +385,26 @@ Multi-tenant app: each user sees only their library and backlog.
 
 ---
 
+## Milestone 12.5 — Achievement Integrations (Optional)
+
+After authentication is in place, let users optionally connect supported gaming-platform accounts and display imported achievement or trophy data on their profiles. Platform support must be assessed individually when this work begins because provider APIs, permissions, and terms vary.
+
+### Scope
+
+- Research provider capabilities and terms before committing to each integration
+- Start with one documented, supported provider; treat Steam, PlayStation, and RetroAchievements as separate integrations
+- Allow a signed-in user to link and unlink a provider account with clear consent
+- Store platform account identifiers and any credentials or tokens securely; never expose them to the client
+- Import achievement summaries and per-game progress where provider access allows it
+- Add a manual refresh or sync flow with useful unavailable/error states
+- Let users control whether achievement data appears on their public profile
+
+### Deliverable
+
+Users can connect at least one supported platform account and view imported achievement data on their profile, with safe account-linking and privacy controls.
+
+---
+
 ## Milestone 13 — Deployment
 
 Get the app and database running in a production environment and reachable end-to-end.
@@ -416,6 +439,6 @@ For me, the first real shipped version is done when:
 - Public profiles and social features with library / backlog visibility
 - View-only access to shared libraries and backlogs
 - Reviews and ratings
-- Achievement-style tracking
+- Manual achievement-style tracking
 - Import/export
 - Richer statistics and visualizations
