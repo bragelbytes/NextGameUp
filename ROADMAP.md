@@ -90,7 +90,7 @@ The backend is meant to act as the layer between external game data and the appâ
 
 ## Where It Stands Right Now
 
-**Last updated:** August 28, 2026
+**Last updated:** October 2, 2026
 
 ### Done So Far
 
@@ -100,11 +100,14 @@ The backend is meant to act as the layer between external game data and the appâ
 - [x] First visible UI shipped with mock library/search cards and reusable frontend components
 - [x] Frontend search flow wired up with typed state, loading state, error state, and backend fetch
 - [x] RAWG-backed server search route is connected and normalizing API results for the frontend
+- [x] Local PostgreSQL database initialized with users, games, library, and backlog tables
+- [x] Initial SQL migrations and manual relationship test completed
 
 ### In Progress
 
 - [~] UI styling and component structure are established, but broader polish still needs work
 - [~] Search result quality filtering is improved, but smarter ranking / filtering is still a stretch goal
+- [~] Express backend still needs a direct `pg` connection to PostgreSQL
 
 ---
 
@@ -188,13 +191,14 @@ Users can search for games through the application and view structured results r
 
 Set up PostgreSQL as the main store, add a SQL migration workflow, and wire the backend to the database with `pg`.
 
-**Status:** Planned / intentionally paused
+**Status:** In progress
 
 ### Scope
 
-- Local PostgreSQL (or equivalent) and `pg` / node-postgres
-- SQL migration workflow and initial schema
-- Connectivity checks and seed data for development
+- [x] Local PostgreSQL database and `psql` setup
+- [ ] Add `pg` / node-postgres to the Express backend
+- [x] SQL migration workflow and initial schema
+- [x] Manual connectivity checks and test data for development
 
 ### Deliverable
 
@@ -204,9 +208,9 @@ Backend talks to PostgreSQL directly; schema changes are managed via SQL migrati
 
 ## Milestone 4 â€” Core Data Models
 
-Design the core schema in SQL for users, games, and user-game relationships.
+Design the core schema in SQL for users, games, library entries, and backlog relationships.
 
-**Status:** Planned / intentionally paused
+**Status:** Initial schema complete
 
 ### Models
 
@@ -214,7 +218,8 @@ Design the core schema in SQL for users, games, and user-game relationships.
 | ----------- | ---- |
 | **User**    | Application user. |
 | **Game**    | Canonical game record (external provider source). |
-| **UserGame**| Userâ€™s library entry for a game (ownership/wishlist). |
+| **UserLibrary** | Userâ€™s library entry for a game (ownership/wishlist). |
+| **UserBacklog** | Backlog state for a user library entry. |
 
 ### Constraints
 
