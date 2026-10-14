@@ -90,7 +90,7 @@ The backend is meant to act as the layer between external game data and the appâ
 
 ## Where It Stands Right Now
 
-**Last updated:** October 2, 2026
+**Last updated:** October 14, 2026
 
 ### Done So Far
 
@@ -102,12 +102,13 @@ The backend is meant to act as the layer between external game data and the appâ
 - [x] RAWG-backed server search route is connected and normalizing API results for the frontend
 - [x] Local PostgreSQL database initialized with users, games, library, and backlog tables
 - [x] Initial SQL migrations and manual relationship test completed
+- [x] Express server connected directly to PostgreSQL through `pg`, with a database-backed health check
+- [x] First parameterized database route: look up a user by id
 
 ### In Progress
 
 - [~] UI styling and component structure are established, but broader polish still needs work
 - [~] Search result quality filtering is improved, but smarter ranking / filtering is still a stretch goal
-- [~] Express backend still needs a direct `pg` connection to PostgreSQL
 
 ---
 
@@ -191,12 +192,12 @@ Users can search for games through the application and view structured results r
 
 Set up PostgreSQL as the main store, add a SQL migration workflow, and wire the backend to the database with `pg`.
 
-**Status:** In progress
+**Status:** Complete
 
 ### Scope
 
 - [x] Local PostgreSQL database and `psql` setup
-- [ ] Add `pg` / node-postgres to the Express backend
+- [x] Add `pg` / node-postgres to the Express backend
 - [x] SQL migration workflow and initial schema
 - [x] Manual connectivity checks and test data for development
 

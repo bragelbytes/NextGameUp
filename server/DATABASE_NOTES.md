@@ -12,6 +12,12 @@ Rules:
 - username is required, provided by user, must be unique
 - created_at is required and generated automatically by the database when the row is created
 
+CREATE TABLE users (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 ## games
 Columns:
 - id: integer
